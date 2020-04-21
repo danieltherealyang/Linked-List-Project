@@ -84,7 +84,11 @@ public class CircleQueueDriver {
 		//trial.cqueue.insertionSort();
 		//trial.showCQueue();
 		
-		//selection sort test
+		//Add Diseases to queue test
+		trial.addCQueue(Diseases.diseaseData());
+		Diseases.key = Diseases.KeyType.name;
+		//Selection sort tester
+		System.out.println("Selection Sort test");
 		trial.cqueue.selectionSort();
 		trial.showCQueue();
 		
@@ -92,7 +96,9 @@ public class CircleQueueDriver {
 		Animal.key = Animal.KeyType.combo;
 		Cupcakes.key = Cupcakes.KeyType.combo;
 		Alphabet.key = Alphabet.KeyType.combo;
+		Diseases.key = Diseases.KeyType.combo;
 		trial.showCQueue();
+		
 		
 		//delete queue objects
 		trial.deleteCQueue();
