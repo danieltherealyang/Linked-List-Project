@@ -1,180 +1,82 @@
 import java.util.*;
+
 public class CircleQueueAL {
-    private ArrayList headNode;         // 1st element in Queue
-    private ArrayList tailNode;         // Last element in Queue
-    private ArrayList currentNode; 
-    public CircleQueueAL()
-    {
-        headNode = null;
-        tailNode = null;
-        currentNode = null;
+    ArrayList arrayList;
+    public CircleQueueAL() {
+        arrayList = null;
     }
     
-    public Object getFirstObject()
-    {
-        currentNode = headNode;
-    
-        if (headNode == null)
-            return null;
-        else
-            return headNode.getObject();
+    public Object getFirstObject() {
+        return arrayList.get(0);
     }
     
-    public Object getLastObject()
-    {
-        currentNode = tailNode;
-    
-        if (tailNode == null)
-            return null;
-        else
-            return tailNode.getObject();
+    public Object getLastObject() {
+        int index = arrayList.size() - 1;
+        return arrayList.get(index);
     }
     
-    public Object getObject()
-    {
-        if (currentNode == null)
-          return null;
-        else
-          return currentNode.getObject();
+    public Object getObject(int index) {
+        return arrayList.get(index);
     }
     
-    public void setNext()
-    {
-        currentNode = currentNode.getNext();
-        
-        // never let currentNode be null, wrap to head
-        if (currentNode == null)
-            currentNode = headNode;
+    public void setNext(int currentIndex, Object object) {
+        arrayList.add(currentIndex + 1, object);
     }
     
-    public void setPrevious()
-    {
-        currentNode = currentNode.getPrevious();
-        
-        // never let currentNode be null, wrap to head
-        if (currentNode == null)
-            currentNode = tailNode;
+    public void setPrevious(int currentIndex, Object object) {
+        arrayList.add(currentIndex - 1, object);
     }
     
-    public void add(Object opaqueObject)
-    {
-        // add new object to end of Queue
-        // set opaqueObject
-        // build previous link of tail (as current)
-        tailNode = new ArrayList(opaqueObject, currentNode);
-        
-        // build next link of current (as tail)
-        if (currentNode != null)
-          currentNode.setNextNode(tailNode);
-        
-        // after links are established current eq tail
-        currentNode = tailNode;
-        
-        // head eq tail on 1st element only
-        if (headNode == null) {
-            headNode = tailNode;
-        }
+    public void add(Object object) {
+        arrayList.add(object);
     }
     
-    public Object delete()
-    {
-        Object opaqueObject = null;
-          
-        if (headNode != null) {
-            opaqueObject = headNode.getObject();
-            headNode = headNode.getNext();
-            if (headNode == null)
-                tailNode = headNode;
-            else
-                headNode.setPrevNode(null);
-        }
-            
-        return opaqueObject;
+    public void delete() {
+        arrayList.remove(0);
     }
     
-    public String toString()
-    {
+    public String toString() {
         String queueToString = "[";
-        
-        ArrayList node = headNode;             // start from the head
-        while (node != null)
-        {
-            queueToString += "("+node.getObject()+")";  // append the data to output string
-            node = node.getNext();              // go to next node
-            if (node != null)
+        for (int i = 0; i < arrayList.size(); i++) {
+            queueToString += "("+ arrayList.get(i) +")";
+            if (arrayList.get(i+1) != null) {
                 queueToString += ", ";
-        }                                       // loop 'till queue ends
+            }
+        }
+        
         queueToString += "]";
         return queueToString;
     }
     
-    public void insertionSort() { 
-        
-        //two nodes needed for insertion sort indexes
-        ArrayList node1 = headNode;
-        ArrayList node2 = (node1 == null) ? null : node1.getNext();
-        
-        //continue while nodes remain in bounds
-        while (node2 != null) { 
+    public void insertionSort() {
+        for (int i = 0; i < arrayList.size() - 1; i++) {
             
-            //inner loop pointers for compares and shifts
-            ArrayList slot1 = node1;
-            ArrayList slot2 = node2;
-                
-            //key to be inserted into sorted slot
-            ArrayList key = new ArrayList(node2);     //note: make key a different object, persistent/static in value (node2 moves)
-            String keyText = node2.getObject().toString();
-        
-            //walks slots backwards until key position in found
-            while ( slot1.getObject().toString().compareTo(keyText) > 0 ) {
-                //shifts object greater than key value to the right in list
-                slot2.setObject(slot1.getObject());
-        
-                //moves inner loop pointers
-                slot1 = slot1.getPrevious();
-                slot2 = slot2.getPrevious();
-                
-                //stop at the front of list
-                if (slot1 == null)
-                    break;
-                
+            // insertion sort key logic
+            int k = i + 1;
+            String swap = arrayList.get(k).toString();
+            while( k > 0 && swap.compareTo(arrayList.get(k-1).toString()) < 0) {
+                arrayList.set(k, arrayList.get(k-1));
+                k--;
             }
-            //place key in insertion position
-            slot2.setObject(key.getObject());
-        
-            //advance insertion sort indexes
-            node1 = node1.getNext();
-            node2 = node2.getNext();
-        } 
-    } 
+            arrayList.set(k, swap);
+        }
+    }
     
     public void selectionSort() {
-        ArrayList node1 = headNode;
-        while (node1.getNext() != null) {
-            currentNode = node1.getNext();
-            int min = 1;
-            int currentIndex = 2;
-            ArrayList minNode = node1;
-            String minString = minNode.getObject().toString();
-            while (currentNode != null) {
-                if (currentNode.getObject().toString().compareTo(minString) < 0) {
-                    minNode = currentNode;
-                    min = currentIndex;
-                    minString = minNode.getObject().toString();
-                }
-                currentNode = currentNode.getNext();
-                currentIndex++;
-            }
-            //swap
-            currentNode = node1;
-            for (int i = 1; i < min; i++) {
-                currentNode = currentNode.getNext();
-            }
-            Object temp = currentNode.getObject();
-            currentNode.setObject(node1.getObject());
-            node1.setObject(temp); 
-            
-            node1 = node1.getNext();
-        }
+        int n = arrayList.size(); 
+  
+        for (int i = 0; i < n-1; i++) 
+        { 
+            int min_idx = i; 
+            for (int j = i+1; j < n; j++) 
+                if (arrayList.get(j).toString().compareTo(arrayList.get(j).toString()) < 0)
+                    min_idx = j;
+  
+            // Swap the found minimum element with the first 
+            // element 
+            Object temp = arrayList.get(min_idx);
+            arrayList.set(min_idx, arrayList.get(i));
+            arrayList.set(i, temp);
+        } 
     }
 }
