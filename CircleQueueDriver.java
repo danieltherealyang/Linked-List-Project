@@ -81,14 +81,17 @@ public class CircleQueueDriver {
 		Animal.key = Animal.KeyType.name;
 		Cupcakes.key = Cupcakes.KeyType.flavor;
 		Alphabet.key = Alphabet.KeyType.letter;
-		//trial.cqueue.insertionSort();
-		//trial.showCQueue();
+		trial.cqueue.insertionSort();
+		trial.showCQueue();
 		
 		//Add Diseases to queue test
 		trial.addCQueue(Diseases.diseaseData());
 		Diseases.key = Diseases.KeyType.name;
 		//Selection sort tester
 		System.out.println("Selection Sort test");
+		System.out.println("Queue before sort: ");
+		trial.showCQueue();
+		System.out.println("Queue after sort: ");
 		trial.cqueue.selectionSort();
 		trial.showCQueue();
 		
