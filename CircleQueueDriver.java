@@ -105,6 +105,15 @@ public class CircleQueueDriver {
 		
 		//delete queue objects
 		trial.deleteCQueue();
+		
+		CircleQueueAL circlequeueAL = new CircleQueueAL();
+		for (Object i : Cupcakes.cupCakeData()) {
+		    circlequeueAL.add(i);
+		}
+		
+		System.out.println(circlequeueAL);
+		circlequeueAL.selectionSort();
+		System.out.println(circlequeueAL);
 	}
 	
 }

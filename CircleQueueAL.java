@@ -1,11 +1,7 @@
 import java.util.*;
 
 public class CircleQueueAL {
-    ArrayList arrayList;
-    public CircleQueueAL() {
-        arrayList = null;
-    }
-    
+    ArrayList<Object> arrayList = new ArrayList<Object>();
     public Object getFirstObject() {
         return arrayList.get(0);
     }
@@ -39,7 +35,7 @@ public class CircleQueueAL {
         String queueToString = "[";
         for (int i = 0; i < arrayList.size(); i++) {
             queueToString += "("+ arrayList.get(i) +")";
-            if (arrayList.get(i+1) != null) {
+            if (i == arrayList.size() - 1) {
                 queueToString += ", ";
             }
         }
@@ -62,21 +58,16 @@ public class CircleQueueAL {
         }
     }
     
-    public void selectionSort() {
-        int n = arrayList.size(); 
-  
-        for (int i = 0; i < n-1; i++) 
-        { 
-            int min_idx = i; 
-            for (int j = i+1; j < n; j++) 
-                if (arrayList.get(j).toString().compareTo(arrayList.get(j).toString()) < 0)
-                    min_idx = j;
-  
-            // Swap the found minimum element with the first 
-            // element 
-            Object temp = arrayList.get(min_idx);
-            arrayList.set(min_idx, arrayList.get(i));
-            arrayList.set(i, temp);
-        } 
+    public void selectionSort() { 
+        for (int i = 0; i < arrayList.size(); i++) {
+            int pos = i;
+            for (int j = i; j < arrayList.size(); j++) {
+                if (arrayList.get(j).toString().compareTo(arrayList.get(pos).toString()) < 0) {
+                    pos = j;
+                }
+            }
+            Collections.swap(arrayList, i, pos);
+            //System.out.println(arrayList);
+        }
     }
 }
